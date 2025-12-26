@@ -1,44 +1,37 @@
-import { useTimer } from "../../hooks/useTimer"
-import ProgressRing from "./ProgressRing"
+import { useTimer } from "../../hooks/useTimer";
+import ProgressRing from "./ProgressRing";
+import TaskList from "../tasks/TaskList";
+import MusicPlayer from "../music/MusicPlayer"
 import {
   WORK_TIME,
   SHORT_BREAK_TIME,
   LONG_BREAK_TIME,
-} from "../../utils/constants"
+} from "../../utils/constants";
 
 const formatTime = (seconds: number) => {
-  const m = Math.floor(seconds / 60)
-  const s = seconds % 60
-  return `${m.toString().padStart(2, "0")}:${s
-    .toString()
-    .padStart(2, "0")}`
-}
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+};
 
 const getTotalTime = (mode: string) => {
-  if (mode === "work") return WORK_TIME
-  if (mode === "short-break") return SHORT_BREAK_TIME
-  return LONG_BREAK_TIME
-}
+  if (mode === "work") return WORK_TIME;
+  if (mode === "short-break") return SHORT_BREAK_TIME;
+  return LONG_BREAK_TIME;
+};
 
 const getModeColor = (mode: string) => {
-  if (mode === "work") return "#FFFF" // green
-  if (mode === "short-break") return "#0ea5e9" // blue
-  return "#8b5cf6" // purple
-}
+  if (mode === "work") return "#FFFF"; // green
+  if (mode === "short-break") return "#0ea5e9"; // blue
+  return "#8b5cf6"; // purple
+};
 
 const Timer = () => {
-  const {
-    secondsLeft,
-    isRunning,
-    mode,
-    rounds,
-    start,
-    pause,
-    reset,
-  } = useTimer()
+  const { secondsLeft, isRunning, mode, rounds, start, pause, reset } =
+    useTimer();
 
-  const totalTime = getTotalTime(mode)
-  const progress = (secondsLeft / totalTime) * 100
+  const totalTime = getTotalTime(mode);
+  const progress = (secondsLeft / totalTime) * 100;
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -88,11 +81,11 @@ const Timer = () => {
         </button>
       </div>
 
-      <div className="text-xs opacity-60">
-        Rounds completed: {rounds}
-      </div>
+      <div className="text-xs opacity-60">Rounds completed: {rounds}</div>
+      <TaskList />
+      <MusicPlayer />
     </div>
-  )
-}
+  );
+};
 
-export default Timer
+export default Timer;
