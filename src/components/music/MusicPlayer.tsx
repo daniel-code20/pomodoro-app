@@ -13,7 +13,7 @@ const MusicPlayer = () => {
   } = useAudio()
 
   return (
-    <div className="mt-6 w-full max-w-sm rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+    <div className="mt-6 w-full max-w-sm rounded-xl border border-gray-200 dark:border-neutral-700 p-4">
       <h3 className="text-sm font-semibold mb-3 opacity-70">
         Background sound
       </h3>
@@ -53,11 +53,11 @@ const MusicPlayer = () => {
           <button
             key={s.src}
             onClick={() => setSound(s)}
-            className={`px-3 py-1 rounded-md text-xs border transition
+            className={`px-3 py-1 rounded-md text-xs transition
               ${
                 sound.src === s.src
-                  ? "bg-gray-200 dark:bg-gray-700"
-                  : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                  ? "bg-gray-200 dark:bg-neutral-800"
+                  : "hover:bg-gray-100 dark:hover:bg-neutral-700"
               }`}
           >
             {s.label}

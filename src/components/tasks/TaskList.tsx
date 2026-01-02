@@ -24,11 +24,11 @@ const TaskList = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="New task..."
-          className="flex-1 px-3 py-2 text-sm rounded-lg bg-gray-100 dark:bg-zinc-800 outline-none"
+          className="flex-1 px-3 py-2 text-sm rounded-lg bg-gray-200 dark:bg-zinc-800 outline-none"
         />
         <button
           onClick={handleAdd}
-          className="px-3 py-2 rounded-lg bg-white text-black text-sm hover:bg-zinc-200 transition"
+          className="px-3 py-2 rounded-lg bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-neutral-800 dark:text-white text-sm dark:hover:bg-neutral-700 transition"
         >
           Add
         </button>

@@ -8,7 +8,7 @@ type Props = {
 
 const AppLayout = ({ children }: Props) => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-zinc-950 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900 text-gray-900 dark:text-gray-100 animate__animated animate__fadeIn ">
       <Header />
       
       <main className="flex-1 flex items-center justify-center px-4">

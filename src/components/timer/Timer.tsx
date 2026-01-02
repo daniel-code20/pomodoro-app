@@ -1,73 +1,50 @@
-import { useTimer } from "../../hooks/useTimer";
-import ProgressRing from "./ProgressRing";
-import TaskList from "../tasks/TaskList";
+import { useTimer } from "../../hooks/useTimer"
+import TaskList from "../tasks/TaskList"
 import MusicPlayer from "../music/MusicPlayer"
-import {
-  WORK_TIME,
-  SHORT_BREAK_TIME,
-  LONG_BREAK_TIME,
-} from "../../utils/constants";
 
 const formatTime = (seconds: number) => {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-};
+  const m = Math.floor(seconds / 60)
+  const s = seconds % 60
+  return `${m.toString().padStart(2, "0")}:${s
+    .toString()
+    .padStart(2, "0")}`
+}
 
-const getTotalTime = (mode: string) => {
-  if (mode === "work") return WORK_TIME;
-  if (mode === "short-break") return SHORT_BREAK_TIME;
-  return LONG_BREAK_TIME;
-};
-
-const getModeColor = (mode: string) => {
-  if (mode === "work") return "#FFFF"; // green
-  if (mode === "short-break") return "#0ea5e9"; // blue
-  return "#8b5cf6"; // purple
-};
+const getModeLabel = (mode: string) => {
+  if (mode === "work") return "Work"
+  if (mode === "short-break") return "Short break"
+  return "Long break"
+}
 
 const Timer = () => {
   const { secondsLeft, isRunning, mode, rounds, start, pause, reset } =
-    useTimer();
-
-  const totalTime = getTotalTime(mode);
-  const progress = (secondsLeft / totalTime) * 100;
+    useTimer()
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-8">
+      {/* Mode */}
       <span className="text-xs uppercase tracking-widest opacity-60">
-        {mode.replace("-", " ")}
+        {getModeLabel(mode)}
       </span>
 
-      {/* Ring */}
-      <div className="relative">
-        <ProgressRing
-          radius={120}
-          stroke={8}
-          progress={progress}
-          color={getModeColor(mode)}
-        />
-
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-4xl font-mono font-semibold">
-            {formatTime(secondsLeft)}
-          </span>
-        </div>
-      </div>
+      {/* Time */}
+      <span className="text-7xl md:text-9xl text-neutral-800 dark:text-white font-mono font-semibold tracking-tight">
+        {formatTime(secondsLeft)}
+      </span>
 
       {/* Controls */}
       <div className="flex gap-4">
         {!isRunning ? (
           <button
             onClick={start}
-            className="px-6 py-2 rounded-lg bg-white text-black hover:bg-zinc-200 transition"
+            className="px-6 py-2 rounded-lg bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition"
           >
             Start
           </button>
         ) : (
           <button
             onClick={pause}
-            className="px-6 py-2 rounded-lg bg-white text-black hover:bg-zinc-200 transition"
+            className="px-6 py-2 rounded-lg bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition"
           >
             Pause
           </button>
@@ -75,17 +52,21 @@ const Timer = () => {
 
         <button
           onClick={reset}
-          className="px-6 py-2 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-zinc-900 transition"
+          className="px-6 py-2 rounded-lg border border-gray-300 dark:border-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-800 transition"
         >
           Reset
         </button>
       </div>
 
-      <div className="text-xs opacity-60">Rounds completed: {rounds}</div>
+      {/* Rounds */}
+      <div className="text-xs opacity-60">
+        Rounds completed: {rounds}
+      </div>
+
       <TaskList />
       <MusicPlayer />
     </div>
-  );
-};
+  )
+}
 
-export default Timer;
+export default Timer
