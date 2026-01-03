@@ -20,6 +20,7 @@ type Action =
   | { type: "RESET" }
   | { type: "TICK" }
   | { type: "FINISH" }
+  | { type: "SET_MODE"; mode: TimerMode }
 
 const initialState: State = {
   secondsLeft: WORK_TIME,
@@ -44,6 +45,25 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         secondsLeft: state.secondsLeft - 1,
       }
+
+    case "SET_MODE": {
+      let seconds = WORK_TIME
+
+      if (action.mode === "short-break") {
+        seconds = SHORT_BREAK_TIME
+      }
+
+      if (action.mode === "long-break") {
+        seconds = LONG_BREAK_TIME
+      }
+
+      return {
+        ...state,
+        mode: action.mode,
+        secondsLeft: seconds,
+        isRunning: false,
+      }
+    }
 
     case "FINISH": {
       if (state.mode === "work") {
@@ -79,7 +99,7 @@ export const useTimer = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const intervalRef = useRef<number | null>(null)
 
-  // ⏲️ Interval (único effect válido)
+  // ⏲️ Interval
   useEffect(() => {
     if (!state.isRunning) return
 
@@ -107,5 +127,7 @@ export const useTimer = () => {
     start: () => dispatch({ type: "START" }),
     pause: () => dispatch({ type: "PAUSE" }),
     reset: () => dispatch({ type: "RESET" }),
+    setMode: (mode: TimerMode) =>
+      dispatch({ type: "SET_MODE", mode }),
   }
 }

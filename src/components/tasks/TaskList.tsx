@@ -35,7 +35,14 @@ const TaskList = () => {
       </div>
 
       {/* List */}
-      <div className="space-y-1">
+      <div
+        className="
+          max-h-[132px]
+          overflow-y-auto
+          space-y-1
+          pr-1
+        "
+      >
         {tasks.length === 0 && (
           <p className="text-xs opacity-50 text-center">
             No tasks yet

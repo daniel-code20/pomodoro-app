@@ -8,7 +8,7 @@ type Props = {
 
 const TaskItem = ({ task, onToggle, onDelete }: Props) => {
   return (
-    <div className="flex items-center bg-gray-200 text-gray-500 font-medium dark:bg-zinc-800 dark:text-white gap-3 p-2 rounded-lg hover:bg-gray-300 dark:hover:bg-zinc-700 transition">
+    <div className="flex items-center 0 text-gray-500 font-medium  dark:text-white gap-3 p-2 rounded-lg">
       <input
         type="checkbox"
         checked={task.completed}
@@ -18,7 +18,7 @@ const TaskItem = ({ task, onToggle, onDelete }: Props) => {
 
       <span
         className={`flex-1 text-sm ${
-          task.completed ? "line-through opacity-50" : ""
+          task.completed ? "line-through opacity-80" : ""
         }`}
       >
         {task.title}
@@ -26,7 +26,7 @@ const TaskItem = ({ task, onToggle, onDelete }: Props) => {
 
       <button
         onClick={onDelete}
-        className="text-xs text-zinc-600 dark:text-zinc-300 hover:text-zinc-400"
+        className="text-xs text-zinc-600 dark:text-zinc-300 hover:text-neutral-400"
       >
         ✕
       </button>

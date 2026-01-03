@@ -1,54 +1,45 @@
+import { Play, Pause } from "lucide-react"
 import { useAudio } from "../../hooks/useAudio"
 
 const MusicPlayer = () => {
   const {
     sounds,
     isPlaying,
-    volume,
     sound,
     play,
     pause,
-    setVolume,
     setSound,
   } = useAudio()
 
   return (
     <div className="mt-6 w-full max-w-sm rounded-xl border border-gray-200 dark:border-neutral-700 p-4">
-      <h3 className="text-sm font-semibold mb-3 opacity-70">
+      <h3 className="text-sm font-semibold mb-4 opacity-70 text-center">
         Background sound
       </h3>
 
-      {/* Controls */}
-      <div className="flex items-center gap-4 mb-4">
-        {!isPlaying ? (
-          <button
-            onClick={play}
-            className="px-4 py-1 rounded-md bg-green-600 text-white text-sm"
-          >
-            Play
-          </button>
-        ) : (
-          <button
-            onClick={pause}
-            className="px-4 py-1 rounded-md bg-yellow-500 text-white text-sm"
-          >
-            Pause
-          </button>
-        )}
-
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={volume}
-          onChange={(e) => setVolume(Number(e.target.value))}
-          className="flex-1"
-        />
+      {/* Play / Pause button */}
+      <div className="flex justify-center mb-5">
+        <button
+          onClick={isPlaying ? pause : play}
+          className="
+            w-14 h-14 rounded-full
+            bg-neutral-900 hover:bg-neutral-700 dark:bg-neutral-800
+            flex items-center justify-center
+            text-white
+            transition-transform active:scale-95
+            shadow-lg
+          "
+        >
+          {isPlaying ? (
+            <Pause size={26} fill="white" />
+          ) : (
+            <Play size={26} fill="white" className="ml-1" />
+          )}
+        </button>
       </div>
 
       {/* Sound selector */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2 flex-wrap justify-center">
         {sounds.map((s) => (
           <button
             key={s.src}
@@ -57,7 +48,7 @@ const MusicPlayer = () => {
               ${
                 sound.src === s.src
                   ? "bg-gray-200 dark:bg-neutral-800"
-                  : "hover:bg-gray-100 dark:hover:bg-neutral-700"
+                  : "hover:bg-gray-300 dark:hover:bg-neutral-700"
               }`}
           >
             {s.label}

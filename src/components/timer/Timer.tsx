@@ -10,25 +10,44 @@ const formatTime = (seconds: number) => {
     .padStart(2, "0")}`
 }
 
-const getModeLabel = (mode: string) => {
-  if (mode === "work") return "Work"
-  if (mode === "short-break") return "Short break"
-  return "Long break"
-}
-
 const Timer = () => {
-  const { secondsLeft, isRunning, mode, rounds, start, pause, reset } =
-    useTimer()
+  const {
+    secondsLeft,
+    isRunning,
+    mode,
+    rounds,
+    start,
+    pause,
+    reset,
+    setMode,
+  } = useTimer()
 
   return (
     <div className="flex flex-col items-center gap-8">
-      {/* Mode */}
-      <span className="text-xs uppercase tracking-widest opacity-60">
-        {getModeLabel(mode)}
-      </span>
+      {/* Mode selector */}
+      <div className="flex gap-2 bg-gray-200 dark:bg-neutral-800 p-1 rounded-xl">
+        {[
+          { label: "Work", value: "work" },
+          { label: "Short", value: "short-break" },
+          { label: "Long", value: "long-break" },
+        ].map((item) => (
+          <button
+            key={item.value}
+            onClick={() => setMode(item.value as never)}
+            className={`px-4 py-1.5 text-xs rounded-lg transition
+              ${
+                mode === item.value
+                  ? "bg-neutral-800 text-white dark:bg-neutral-700 dark:text-white"
+                  : "opacity-60 hover:opacity-100"
+              }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
 
       {/* Time */}
-      <span className="text-7xl md:text-9xl text-neutral-800 dark:text-white font-mono font-semibold tracking-tight">
+      <span className="text-7xl md:text-9xl text-neutral-800 dark:text-white font-bold tracking-tight">
         {formatTime(secondsLeft)}
       </span>
 
@@ -37,14 +56,14 @@ const Timer = () => {
         {!isRunning ? (
           <button
             onClick={start}
-            className="px-6 py-2 rounded-lg bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition"
+            className="px-6 py-2 rounded-lg bg-neutral-800 text-white hover:bg-neutral-700 transition"
           >
             Start
           </button>
         ) : (
           <button
             onClick={pause}
-            className="px-6 py-2 rounded-lg bg-neutral-800 text-white hover:bg-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition"
+            className="px-6 py-2 rounded-lg bg-neutral-800 text-white hover:bg-neutral-700 transition"
           >
             Pause
           </button>
