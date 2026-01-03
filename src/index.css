@@ -1,21 +1,31 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
-:root {
-  --safe-bottom: env(safe-area-inset-bottom);
+/* Fondo global (OBLIGATORIO para que el blur no corte) */
+html {
+  background-color: rgb(243 244 246); /* gray-100 */
 }
 
-.pb-safe {
-  padding-bottom: var(--safe-bottom);
+html.dark {
+  background-color: rgb(23 23 23); /* neutral-900 */
 }
 
+body {
+  background-color: inherit;
+  overscroll-behavior: none;
+}
+
+/* Altura completa del viewport */
 html,
 body,
 #root {
   height: 100%;
 }
 
-body {
-  overscroll-behavior: none;
+/* Safe area para móviles (iOS) */
+:root {
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+.pb-safe {
+  padding-bottom: var(--safe-bottom);
 }
