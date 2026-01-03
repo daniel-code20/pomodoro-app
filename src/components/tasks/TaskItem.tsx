@@ -13,7 +13,7 @@ const TaskItem = ({ task, onToggle, onDelete }: Props) => {
         type="checkbox"
         checked={task.completed}
         onChange={onToggle}
-        className="accent-white"
+        className="accent-white rounded-full"
       />
 
       <span
