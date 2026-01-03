@@ -9,12 +9,16 @@ type Props = {
 const AppLayout = ({ children }: Props) => {
   return (
     <>
-      <div className="bg-fixed" />
+      {/* Fondo fijo */}
+      <div className="bg-fixed fixed inset-0 w-full h-full bg-black dark:bg-neutral-900" />
 
-      <div className="relative flex flex-col min-h-screen text-neutral-900 dark:text-neutral-100 animate__animated animate__fadeIn">
+      {/* Contenedor principal */}
+      <div className="relative flex flex-col min-h-[100dvh] text-neutral-900 dark:text-neutral-100 animate__animated animate__fadeIn
+        overflow-x-auto
+      ">
         <Header />
 
-        <main className="flex-1 px-4 py-8 overflow-auto pb-safe">
+        <main className="flex-1 px-4 py-8 overflow-y-auto pb-safe">
           {children}
         </main>
 
