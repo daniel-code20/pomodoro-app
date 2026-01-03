@@ -1,16 +1,16 @@
-import { useState } from "react"
-import { useTheme } from "../../hooks/useTheme"
-import { useTimerSettings } from "../../context/useTimerSettings"
-import TimerSettingsModal from "../settings/TimerSettingsModal"
+import { useState } from "react";
+import { useTheme } from "../../hooks/useTheme";
+import { useTimerSettings } from "../../context/useTimerSettings";
+import TimerSettingsModal from "../settings/TimerSettingsModal";
 
 const Header = () => {
-  const { theme, toggleTheme } = useTheme()
-  const { settings, updateSettings } = useTimerSettings()
-  const [open, setOpen] = useState(false)
+  const { theme, toggleTheme } = useTheme();
+  const { settings, updateSettings } = useTimerSettings();
+  const [open, setOpen] = useState(false);
 
   return (
     <>
-      <header className="h-16 flex items-center justify-between px-6 border-b mb-4 border-gray-200 dark:border-neutral-700">
+      <header className="h-16 flex items-center justify-between px-6 border-b border-gray-200 dark:border-neutral-700">
         <h1 className="font-semibold text-lg">Pomodoro Focus</h1>
 
         <div className="flex items-center gap-3">
@@ -38,7 +38,7 @@ const Header = () => {
         onSave={updateSettings}
       />
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
