@@ -72,7 +72,7 @@ const TimerSettingsModal = ({ isOpen, onClose, settings, onSave }: Props) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center px-4">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center px-4">
       <div className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-2xl p-6 w-full max-w-sm">
         <h2 className="text-lg font-semibold mb-4">Timer Settings</h2>
 

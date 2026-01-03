@@ -1,21 +1,35 @@
 @import "tailwindcss";
 
+/* Dark mode custom variant */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Safe area bottom para móviles */
 :root {
+  --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
 }
 
+/* Padding seguro para móviles */
 .pb-safe {
   padding-bottom: var(--safe-bottom);
 }
 
-html,
-body,
-#root {
-  height: 100%;
+/* Full viewport y reset de márgenes */
+html, body, #root {
+  height: 100dvh; /* cubre toda la pantalla incluyendo móviles */
+  margin: 0;
+  padding: 0;
 }
 
+/* Evita rebotes de scroll en móviles */
 body {
   overscroll-behavior: none;
+}
+
+/* Background full para modales y overlays */
+.bg-full {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: inherit; /* toma el color del body o dark mode */
 }
