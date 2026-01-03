@@ -8,18 +8,19 @@ type Props = {
 
 const AppLayout = ({ children }: Props) => {
   return (
-    <div className="bg-full text-neutral-900 dark:text-neutral-100 animate__animated animate__fadeIn">
-      {/* Header siempre arriba */}
-      <Header />
+    <>
+      <div className="bg-fixed" />
 
-      {/* Contenido principal con padding y scroll interno si hace falta */}
-      <main className="flex-1 px-4 py-8 overflow-auto pb-safe">
-        {children}
-      </main>
+      <div className="relative flex flex-col min-h-screen text-neutral-900 dark:text-neutral-100 animate__animated animate__fadeIn">
+        <Header />
 
-      {/* Footer siempre al final */}
-      <Footer />
-    </div>
+        <main className="flex-1 px-4 py-8 overflow-auto pb-safe">
+          {children}
+        </main>
+
+        <Footer />
+      </div>
+    </>
   );
 };
 

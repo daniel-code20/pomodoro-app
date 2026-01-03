@@ -3,33 +3,36 @@
 /* Dark mode custom variant */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Safe area bottom para móviles */
+/* Safe area en móviles */
 :root {
   --safe-top: env(safe-area-inset-top);
   --safe-bottom: env(safe-area-inset-bottom);
 }
 
-/* Padding seguro para móviles */
+/* Padding seguro */
 .pb-safe {
   padding-bottom: var(--safe-bottom);
 }
 
-/* Full viewport y reset de márgenes */
+/* Body flexible y fondo fijo */
 html, body, #root {
-  height: 100dvh; /* cubre toda la pantalla incluyendo móviles */
+  min-height: 100dvh; /* mínimo alto para cubrir todo */
   margin: 0;
   padding: 0;
+}
+
+/* Contenedor de fondo absoluto/fijo */
+.bg-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: inherit; /* se adapta a dark/light */
+  z-index: -10; /* detrás de todo */
 }
 
 /* Evita rebotes de scroll en móviles */
 body {
   overscroll-behavior: none;
-}
-
-/* Background full para modales y overlays */
-.bg-full {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  background-color: inherit; /* toma el color del body o dark mode */
 }
