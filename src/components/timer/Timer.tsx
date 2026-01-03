@@ -28,8 +28,8 @@ const Timer = () => {
       <div className="flex gap-2 bg-gray-200 dark:bg-neutral-800 p-1 rounded-xl">
         {[
           { label: "Work", value: "work" },
-          { label: "Short", value: "short-break" },
-          { label: "Long", value: "long-break" },
+          { label: "Short Break", value: "short-break" },
+          { label: "Long Break", value: "long-break" },
         ].map((item) => (
           <button
             key={item.value}

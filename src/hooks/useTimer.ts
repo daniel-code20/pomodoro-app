@@ -1,10 +1,5 @@
 import { useEffect, useReducer, useRef } from "react"
-import {
-  WORK_TIME,
-  SHORT_BREAK_TIME,
-  LONG_BREAK_TIME,
-  ROUNDS_BEFORE_LONG_BREAK,
-} from "../utils/constants"
+import { useTimerSettings } from "../context/useTimerSettings"
 import type { TimerMode } from "../types"
 
 type State = {
@@ -14,19 +9,33 @@ type State = {
   rounds: number
 }
 
+type Times = {
+  work: number
+  shortBreak: number
+  longBreak: number
+}
+
 type Action =
   | { type: "START" }
   | { type: "PAUSE" }
-  | { type: "RESET" }
   | { type: "TICK" }
-  | { type: "FINISH" }
-  | { type: "SET_MODE"; mode: TimerMode }
+  | { type: "RESET"; time: number }
+  | { type: "SET_MODE"; mode: TimerMode; times: Times }
+  | {
+      type: "FINISH"
+      times: Times
+      roundsBeforeLong: number
+    }
 
-const initialState: State = {
-  secondsLeft: WORK_TIME,
-  isRunning: false,
-  mode: "work",
-  rounds: 0,
+const getTimeForMode = (mode: TimerMode, times: Times) => {
+  switch (mode) {
+    case "work":
+      return times.work
+    case "short-break":
+      return times.shortBreak
+    case "long-break":
+      return times.longBreak
+  }
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -37,25 +46,22 @@ const reducer = (state: State, action: Action): State => {
     case "PAUSE":
       return { ...state, isRunning: false }
 
-    case "RESET":
-      return initialState
-
     case "TICK":
       return {
         ...state,
         secondsLeft: state.secondsLeft - 1,
       }
 
+    case "RESET":
+      return {
+        ...state,
+        secondsLeft: action.time,
+        isRunning: false,
+        rounds: 0,
+      }
+
     case "SET_MODE": {
-      let seconds = WORK_TIME
-
-      if (action.mode === "short-break") {
-        seconds = SHORT_BREAK_TIME
-      }
-
-      if (action.mode === "long-break") {
-        seconds = LONG_BREAK_TIME
-      }
+      const seconds = getTimeForMode(action.mode, action.times)
 
       return {
         ...state,
@@ -66,18 +72,17 @@ const reducer = (state: State, action: Action): State => {
     }
 
     case "FINISH": {
+      const { work, shortBreak, longBreak } = action.times
+
       if (state.mode === "work") {
         const nextRounds = state.rounds + 1
-        const isLongBreak =
-          nextRounds % ROUNDS_BEFORE_LONG_BREAK === 0
+        const isLongBreak = nextRounds % action.roundsBeforeLong === 0
 
         return {
           ...state,
           rounds: nextRounds,
           mode: isLongBreak ? "long-break" : "short-break",
-          secondsLeft: isLongBreak
-            ? LONG_BREAK_TIME
-            : SHORT_BREAK_TIME,
+          secondsLeft: isLongBreak ? longBreak : shortBreak,
           isRunning: false,
         }
       }
@@ -85,7 +90,7 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         mode: "work",
-        secondsLeft: WORK_TIME,
+        secondsLeft: work,
         isRunning: false,
       }
     }
@@ -96,10 +101,16 @@ const reducer = (state: State, action: Action): State => {
 }
 
 export const useTimer = () => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const { settings } = useTimerSettings()
   const intervalRef = useRef<number | null>(null)
 
-  // ⏲️ Interval
+  const [state, dispatch] = useReducer(reducer, {
+    secondsLeft: settings.work,
+    isRunning: false,
+    mode: "work",
+    rounds: 0,
+  })
+
   useEffect(() => {
     if (!state.isRunning) return
 
@@ -115,19 +126,40 @@ export const useTimer = () => {
     }
   }, [state.isRunning])
 
-  // ⏹️ Finish
   useEffect(() => {
     if (state.secondsLeft === 0) {
-      dispatch({ type: "FINISH" })
+      dispatch({
+        type: "FINISH",
+        times: settings,
+        roundsBeforeLong: 4,
+      })
     }
-  }, [state.secondsLeft])
+  }, [state.secondsLeft, settings])
+
+  useEffect(() => {
+    if (state.isRunning) return
+
+    const time = getTimeForMode(state.mode, settings)
+
+    dispatch({
+      type: "RESET",
+      time,
+    })
+  }, [settings, state.mode, state.isRunning])
 
   return {
     ...state,
     start: () => dispatch({ type: "START" }),
     pause: () => dispatch({ type: "PAUSE" }),
-    reset: () => dispatch({ type: "RESET" }),
+    reset: () => {
+      const time = getTimeForMode(state.mode, settings)
+      dispatch({ type: "RESET", time })
+    },
     setMode: (mode: TimerMode) =>
-      dispatch({ type: "SET_MODE", mode }),
+      dispatch({
+        type: "SET_MODE",
+        mode,
+        times: settings,
+      }),
   }
 }
