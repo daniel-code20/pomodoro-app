@@ -12,7 +12,7 @@ const MusicPlayer = () => {
   } = useAudio()
 
   return (
-    <div className="mt-6 w-full max-w-sm rounded-xl border border-gray-200 dark:border-neutral-700 p-4">
+    <div className="mt-6 w-full rounded-xl border border-gray-200 dark:border-neutral-700 p-4">
       <h3 className="text-sm font-semibold mb-4 opacity-70 text-center">
         Background sound
       </h3>

@@ -8,12 +8,12 @@ type Props = {
 
 const TaskItem = ({ task, onToggle, onDelete }: Props) => {
   return (
-    <div className="flex items-center 0 text-gray-500 font-medium  dark:text-white gap-3 p-2 rounded-lg">
+    <div className="flex items-center min-w-0 text-gray-500 font-medium  dark:text-white gap-3 p-2 rounded-lg">
       <input
         type="checkbox"
         checked={task.completed}
         onChange={onToggle}
-        className="accent-white rounded-full"
+        className="accent-neutral-700 dark:accent-neutral-700 rounded-full"
       />
 
       <span
