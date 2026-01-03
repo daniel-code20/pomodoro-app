@@ -1,16 +1,18 @@
 const Footer = () => {
   return (
-    <footer className="
-      min-h-12
+    <footer
+      className="
       flex items-center justify-center
       text-xs
       text-neutral-500
       dark:text-neutral-500
-      pb-[env(safe-area-inset-bottom)]
-    ">
+      py-4
+      
+    "
+    >
       Stay focused. One pomodoro at a time.
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

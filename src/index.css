@@ -9,3 +9,12 @@
 .pb-safe {
   padding-bottom: var(--safe-bottom);
 }
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(23 23 23);
+}
