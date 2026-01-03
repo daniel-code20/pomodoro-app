@@ -33,7 +33,7 @@ const Onboarding = ({ onFinish }: Props) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 w-full max-w-sm text-center shadow-xl">
+      <div className="bg-white dark:bg-neutral-900 dark:text-white rounded-2xl p-6 w-full max-w-sm text-center shadow-xl">
         <h2 className="text-xl font-semibold mb-2">
           {steps[step].title}
         </h2>
