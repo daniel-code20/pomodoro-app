@@ -19,13 +19,9 @@ type Action =
   | { type: "START" }
   | { type: "PAUSE" }
   | { type: "TICK" }
-  | { type: "RESET"; time: number }
+  | { type: "RESET"; time: number; resetRounds?: boolean }
   | { type: "SET_MODE"; mode: TimerMode; times: Times }
-  | {
-      type: "FINISH"
-      times: Times
-      roundsBeforeLong: number
-    }
+  | { type: "FINISH"; times: Times; roundsBeforeLong: number }
 
 const getTimeForMode = (mode: TimerMode, times: Times) => {
   switch (mode) {
@@ -57,12 +53,11 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         secondsLeft: action.time,
         isRunning: false,
-        rounds: 0,
+        rounds: action.resetRounds ? 0 : state.rounds,
       }
 
     case "SET_MODE": {
       const seconds = getTimeForMode(action.mode, action.times)
-
       return {
         ...state,
         mode: action.mode,
@@ -111,6 +106,7 @@ export const useTimer = () => {
     rounds: 0,
   })
 
+  // Intervalo del timer
   useEffect(() => {
     if (!state.isRunning) return
 
@@ -126,6 +122,7 @@ export const useTimer = () => {
     }
   }, [state.isRunning])
 
+  // Cuando el timer llega a 0
   useEffect(() => {
     if (state.secondsLeft === 0) {
       dispatch({
@@ -136,16 +133,19 @@ export const useTimer = () => {
     }
   }, [state.secondsLeft, settings])
 
+  // Actualiza tiempo cuando cambian los settings o el modo
   useEffect(() => {
-    if (state.isRunning) return
-
     const time = getTimeForMode(state.mode, settings)
 
-    dispatch({
-      type: "RESET",
-      time,
-    })
-  }, [settings, state.mode, state.isRunning])
+    // Solo reset automático si el tiempo actual es distinto
+    if (state.secondsLeft !== time) {
+      dispatch({
+        type: "RESET",
+        time,
+        resetRounds: false, // no reiniciamos las rondas
+      })
+    }
+  }, [settings, state.mode])
 
   return {
     ...state,
@@ -153,7 +153,7 @@ export const useTimer = () => {
     pause: () => dispatch({ type: "PAUSE" }),
     reset: () => {
       const time = getTimeForMode(state.mode, settings)
-      dispatch({ type: "RESET", time })
+      dispatch({ type: "RESET", time, resetRounds: true }) // reset manual sí reinicia rondas
     },
     setMode: (mode: TimerMode) =>
       dispatch({
